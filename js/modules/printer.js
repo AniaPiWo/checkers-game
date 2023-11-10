@@ -1,23 +1,10 @@
 export class Printer {
   // umowny interfejs (w JS nie ma takiej struktury)
-  //metody ktore powinny posiadac wszytskie drukarki
   init(settings) {
     this.#throwError();
   }
 
   renderBoard(data) {
-    this.#throwError();
-  }
-
-  renderPanel(data) {
-    this.#throwError();
-  }
-
-  resetFields() {
-    this.#throwError();
-  }
-
-  selectFields(coords) {
     this.#throwError();
   }
 
@@ -27,8 +14,7 @@ export class Printer {
 }
 
 export class CheckersDOMPrinter extends Printer {
-  //feature flag
-  #developerMode = true;
+  #developerMode = true; // Feature Flag
 
   #boardRef;
 
@@ -39,8 +25,10 @@ export class CheckersDOMPrinter extends Printer {
 
   init({ boardData }) {
     const { appContainerRef } = this.settings;
+
     this.#boardRef = this.#createBoard();
     appContainerRef.appendChild(this.#boardRef);
+
     this.renderBoard(boardData);
   }
 
@@ -54,6 +42,7 @@ export class CheckersDOMPrinter extends Printer {
           const pieceRef = this.#createPiece(field.piece);
           fieldRef.appendChild(pieceRef);
         }
+
         this.#boardRef.appendChild(fieldRef);
       });
     });
@@ -62,21 +51,25 @@ export class CheckersDOMPrinter extends Printer {
   #createBoard() {
     const div = document.createElement("div");
     div.id = "board";
+
     return div;
   }
 
   #createField(row, col) {
     const fieldRef = document.createElement("div");
     fieldRef.dataset.coord = `${row}${col}`;
+
     fieldRef.className = "cell";
-    fieldRef.classList.add(`c$(fieldRef.dataset.coord)`);
+    fieldRef.classList.add(`c${fieldRef.dataset.coord}`);
 
     if (this.#developerMode) {
       const coordRef = document.createElement("div");
       coordRef.className = "coord";
       coordRef.innerText = fieldRef.dataset.coord;
+
       fieldRef.appendChild(coordRef);
     }
+
     return fieldRef;
   }
 
@@ -84,7 +77,9 @@ export class CheckersDOMPrinter extends Printer {
     const div = document.createElement("div");
     div.classList.add("piece", piece.name);
     div.classList.add(`p${piece.player}`);
+
     div.dataset.player = piece.player;
+
     return div;
   }
 }
