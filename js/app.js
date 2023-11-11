@@ -2,9 +2,6 @@ import { CheckersGame } from "./modules/game.js";
 import { Board } from "./modules/board.js";
 import { CheckersDOMPrinter } from "./modules/printer.js";
 import { Player } from "./modules/player.js";
-import { Field } from "./modules/field.js";
-import { Checker } from "./modules/checker.js";
-import { King } from "./modules/king.js";
 
 document.addEventListener("DOMContentLoaded", function () {
   const appContainerRef = document.getElementById("app");
@@ -34,14 +31,14 @@ document.addEventListener("DOMContentLoaded", function () {
   // game.addPlayer(player1, CheckersGame.getStartingPositionForWhite());
   // game.addPlayer(player2, CheckersGame.getStartingPositionForBlack());
 
-  const player1Index = game.addPlayer(player1);
+  /*   const player1Index = game.addPlayer(player1);
   const player2Index = game.addPlayer(player2);
 
   board.setField("21", Field.factory(new Checker(player1Index)));
   board.setField("12", Field.factory(new Checker(player2Index)));
   board.setField("23", Field.factory(new Checker(player2Index)));
   board.setField("54", Field.factory(new King(player1Index)));
-  board.setField("43", Field.factory(new King(player2Index)));
+  board.setField("43", Field.factory(new King(player2Index)));  */
 
   game.init();
 
