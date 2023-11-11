@@ -17,6 +17,8 @@ export class Board {
     ["90", "91", "92", "93", "94", "95", "96", "97", "98", "99"],
   ];
 
+  #promotionRowByPlayerIndex = ["0", "9"];
+
   get fieldsList() {
     const fieldsList = this.#fieldsList.map((row) => {
       return Object.freeze([...row]);
@@ -153,6 +155,13 @@ export class Board {
 
     fieldTo.piece = fieldFrom.piece;
     fieldFrom.setEmpty();
+    const [rowTo] = to;
+    if (
+      this.#promotionRowByPlayerIndex[playerIndex] === rowTo &&
+      fieldTo.piece.name === "checker"
+    ) {
+      fieldTo.changeToKing();
+    }
   }
 
   #cutPathToFirstOwnPiece(path, playerIndex) {
