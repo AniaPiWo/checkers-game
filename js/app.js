@@ -2,9 +2,6 @@ import { CheckersGame } from "./modules/game.js";
 import { Board } from "./modules/board.js";
 import { CheckersDOMPrinter } from "./modules/printer.js";
 import { Player } from "./modules/player.js";
-import { Field } from "./modules/field.js";
-import { Checker } from "./modules/checker.js";
-import { King } from "./modules/king.js";
 
 document.addEventListener("DOMContentLoaded", function () {
   const appContainerRef = document.getElementById("app");
