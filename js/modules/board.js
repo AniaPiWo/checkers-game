@@ -2,8 +2,6 @@ import { Field } from "./field.js";
 import { Move } from "./move.js";
 
 export class Board {
-  // 1. enkapsulacja
-  // 2. abstrakcja
   #fieldsList = [
     ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09"],
     ["10", "11", "12", "13", "14", "15", "16", "17", "18", "19"],
@@ -32,12 +30,10 @@ export class Board {
   }
 
   init() {
-    // uzupełniam resztę pól
     for (let i = 0; i < this.#fieldsList.length; i++) {
       for (let j = 0; j < this.#fieldsList.length; j++) {
         const field = this.getField(i + "" + j);
         if (!(field instanceof Field)) {
-          // jeśli nie zainicjonowano pola to zrób to
           this.setField(`${i}${j}`, new Field());
         }
       }
@@ -94,7 +90,6 @@ export class Board {
   }
 
   #forEachFields(callback) {
-    // callback(row, col)
     for (let i = 0; i < this.#fieldsList.length; i++) {
       for (let j = 0; j < this.#fieldsList.length; j++) {
         callback(i, j);
@@ -135,7 +130,7 @@ export class Board {
   }
 
   move(notation, playerIndex, incrementScoreCallback) {
-    const [from, to] = notation.split("-"); // 52-43 => from=52, to=43
+    const [from, to] = notation.split("-");
     if (!this.#isCorrectCoord(from)) {
       throw new Error('Incorrect "from" coord');
     }
@@ -164,7 +159,7 @@ export class Board {
     const isCapture = coordsOponent.length > 0;
 
     const { piece } = fieldFrom;
-    const inverse = !!playerIndex; // !!0 => false, !!1 => true
+    const inverse = !!playerIndex;
     const move = piece.getMove(from, to, isCapture, inverse);
     if (!move) {
       throw new Error("This move is not correct!");
@@ -196,12 +191,12 @@ export class Board {
 
   #cutPathToFirstOwnPiece(path, playerIndex) {
     const newPath = [];
-    // potrzebuję przerwać działanie w odpowiednim momencie
+
     for (let i = 0; i < path.length; i++) {
       const coord = path[i];
       const field = this.getField(coord);
       if (!field.isEmpty() && field.isPieceOwner(playerIndex)) {
-        break; // zakończ działanie jak znajdziesz własnego pionka
+        break;
       }
 
       newPath.push(coord);

@@ -31,15 +31,6 @@ document.addEventListener("DOMContentLoaded", function () {
   game.addPlayer(player1, CheckersGame.getStartingPositionForWhite());
   game.addPlayer(player2, CheckersGame.getStartingPositionForBlack());
 
-  /*   const player1Index = game.addPlayer(player1);
-  const player2Index = game.addPlayer(player2);
-
-  board.setField("21", Field.factory(new Checker(player1Index)));
-  board.setField("12", Field.factory(new Checker(player2Index)));
-  board.setField("23", Field.factory(new Checker(player2Index)));
-  board.setField("54", Field.factory(new King(player1Index)));
-  board.setField("43", Field.factory(new King(player2Index)));  */
-
   game.init();
 
   appContainerRef.addEventListener("click", (e) => {
@@ -48,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const { coord } = e.target.parentElement.dataset;
       const { player: playerIndex } = e.target.dataset;
 
-      game.selectPiece(coord, +playerIndex); // znak + oznacza zamień na Number
+      game.selectPiece(coord, +playerIndex);
     } else if (
       e.target.classList.contains("cell") &&
       e.target.classList.contains("selected")

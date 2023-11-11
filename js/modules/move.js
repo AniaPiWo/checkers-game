@@ -1,12 +1,11 @@
 export class Move {
-  #forwardRight; // ↗
-  #forwardLeft; // ↖
-  #backwardRight; // ↘
-  #backwardLeft; // ↙
+  #forwardRight;
+  #forwardLeft;
+  #backwardRight;
+  #backwardLeft;
   #isCapture;
 
   static factory(settings) {
-    // YAGNI (Nie będziesz tego potrzebować, ang. You aren't gonna need it)
     return new Move(settings);
   }
 
@@ -43,7 +42,6 @@ export class Move {
   }
 
   static isMatch(origin, move) {
-    // Object.keys(origin) // => nie zwróci prywatnych pól
     const originKeys = Object.keys(origin.get());
     return originKeys.every((key) => {
       const item = origin[key];
@@ -65,7 +63,7 @@ export class Move {
   }
 
   static getPathByCoords(coordFrom, coordTo) {
-    let rowDirection = +1; // to to samo co 1, ale IMO jest czytelniejsze
+    let rowDirection = +1;
     let colDirection = +1;
     const [rowFrom, colFrom] = coordFrom;
     const [rowTo, colTo] = coordTo;
@@ -80,39 +78,37 @@ export class Move {
 
     const path = [];
 
-    path.push(coordFrom); // tylko do obliczenia następnych współrzędnych
+    path.push(coordFrom);
 
     for (let i = 0; i < Math.abs(rowFrom - rowTo); i++) {
-      const [cordLast] = path.slice(-1); // ['62'] => cordLast = '62'
+      const [cordLast] = path.slice(-1);
       const [rowLast, colLast] = cordLast;
       const rowCurr = Number(rowLast) + rowDirection;
       const colCurr = Number(colLast) + colDirection;
       path.push(rowCurr + "" + colCurr);
     }
 
-    path.shift(); // usuwam pierwszy element tablicy
+    path.shift();
 
     return path;
   }
 
   static getPathByMove(coordFrom, move, inverse = false, limit = 10) {
     const directions = {
-      forwardRight: [-1, +1], // podobnie jak wcześniej + IMO jest czytelniejszy
+      forwardRight: [-1, +1],
       forwardLeft: [-1, -1],
       backwardRight: [+1, +1],
       backwardLeft: [+1, -1],
     };
 
-    const path = [coordFrom]; // potrzebuję punktu startowego do obliczeń (jak wcześniej)
+    const path = [coordFrom];
 
     for (const key of Object.keys(directions)) {
       if (typeof move[key] !== "undefined") {
-        // DRY!!!
-
         const count = move[key] || limit; // jeśli `move[key]=0` to ustaw `limit`
 
         for (let i = 0; i < count; i++) {
-          const [cordLast] = path.slice(-1); // ['62'] => cordLast = '62'
+          const [cordLast] = path.slice(-1);
           const [rowLast, colLast] = cordLast;
           let [rowDirection, colDirection] = directions[key];
 
@@ -130,7 +126,7 @@ export class Move {
             colCurr < 0 ||
             colCurr >= limit
           ) {
-            break; // zakończ pętle for, przekroczyliśmy zakres
+            break;
           }
 
           path.push(rowCurr + "" + colCurr);

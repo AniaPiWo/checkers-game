@@ -7,24 +7,24 @@ export class Game {
   _players = []; // SOLID, reguła otwarte-zamknięte (OCP)
 
   _playersMinimum = 0;
-  _playersLimit = 0;
+  _playersMaximum = 0;
 
   addPlayer(player) {
-    if (this._playersLimit <= this._players.length) {
+    if (this._playersMaximum <= this._players.length) {
       throw new Error("Too many players!");
     }
 
     this._players.push(player);
   }
 
-  /*   init() {
+  init() {
     if (
       this._playersMinimum > this._players.length ||
-      this._playersLimit < this._players.length
+      this._playersMaximum < this._players.length
     ) {
       throw new Error("Players number problem!");
     }
-  } */
+  }
 
   move() {
     throw new Error("Implement this method");
@@ -32,11 +32,10 @@ export class Game {
 }
 
 export class CheckersGame extends Game {
-  // 3. dziedziczenie
   _playersMinimum = 2;
-  _playersLimit = 2;
+  _playersMaximum = 2;
 
-  #board; //SOLID: zasada rozdzielania interfejsów (ISP)
+  #board;
   #printer;
   #moves = [];
   #selectedPiece;
@@ -59,7 +58,6 @@ export class CheckersGame extends Game {
   }
 
   static getStartingPositionForWhite(boardSize = 10, rowsCount = 4) {
-    // DRY (Nie powtarzaj się, ang. Don't Repeat Yourself)
     const coords = {};
     for (let i = boardSize - rowsCount; i < boardSize; i++) {
       for (let j = 0; j < boardSize; j++) {
@@ -87,7 +85,7 @@ export class CheckersGame extends Game {
   }
 
   init() {
-    //super.init();
+    super.init();
     this.#board.init();
     this.#printer.init({ boardData: this.#board.fieldsList });
   }
@@ -150,7 +148,6 @@ export class CheckersGame extends Game {
   }
 
   getActivePlayer() {
-    // nie mnóżmy zależności!
     return this._players[this.#getActivePlayerIndex()];
   }
 
@@ -158,7 +155,6 @@ export class CheckersGame extends Game {
     return this._players[this.#getLastActivePlayerIndex()];
   }
 
-  /* poniżej abstrakcja */
   #resetMoves() {
     this.#moves = [];
   }
@@ -194,7 +190,6 @@ export class CheckersGame extends Game {
   }
 
   #getPlayersScore() {
-    // bardzo podobna nazwa do getPlayer[s]Score() - unikamy
     return this._players.map((player) => player.score);
   }
 
@@ -203,7 +198,7 @@ export class CheckersGame extends Game {
   }
 
   #getActivePlayerIndex() {
-    return this.#moves.length % this._players.length; // ... % 2 => 0, 1 [index]
+    return this.#moves.length % this._players.length;
   }
 
   #getLastActivePlayerIndex() {
