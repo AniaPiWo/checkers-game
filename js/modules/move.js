@@ -7,7 +7,6 @@ export class Move {
 
   static factory(settings) {
     // YAGNI (Nie będziesz tego potrzebować, ang. You aren't gonna need it)
-
     return new Move(settings);
   }
 
@@ -22,6 +21,9 @@ export class Move {
     }
 
     const distance = {};
+    if (isCapture) {
+      distance.isCapture = true;
+    }
 
     if (row > 0) {
       if (col > 0) {
