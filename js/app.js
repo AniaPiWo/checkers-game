@@ -28,8 +28,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const player1 = new Player("Gracz 1");
   const player2 = new Player("Gracz 2");
 
-  // game.addPlayer(player1, CheckersGame.getStartingPositionForWhite());
-  // game.addPlayer(player2, CheckersGame.getStartingPositionForBlack());
+  game.addPlayer(player1, CheckersGame.getStartingPositionForWhite());
+  game.addPlayer(player2, CheckersGame.getStartingPositionForBlack());
 
   /*   const player1Index = game.addPlayer(player1);
   const player2Index = game.addPlayer(player2);
