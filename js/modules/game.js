@@ -17,14 +17,14 @@ export class Game {
     this._players.push(player);
   }
 
-  init() {
+  /*   init() {
     if (
       this._playersMinimum > this._players.length ||
       this._playersLimit < this._players.length
     ) {
       throw new Error("Players number problem!");
     }
-  }
+  } */
 
   move() {
     throw new Error("Implement this method");
@@ -87,7 +87,7 @@ export class CheckersGame extends Game {
   }
 
   init() {
-    super.init();
+    //super.init();
     this.#board.init();
     this.#printer.init({ boardData: this.#board.fieldsList });
   }
