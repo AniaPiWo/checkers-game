@@ -8,6 +8,8 @@ import { King } from "./modules/king.js";
 
 document.addEventListener("DOMContentLoaded", function () {
   const appContainerRef = document.getElementById("app");
+  const winnerInfo = document.getElementById("winner");
+  winnerInfo.classList.add("hidden");
 
   if (!appContainerRef) {
     throw new Error("App container not found!");
@@ -48,6 +50,13 @@ document.addEventListener("DOMContentLoaded", function () {
       // wykonaj ruch
       const { coord } = e.target.dataset;
       game.move(`${game.selectedPiece}-${coord}`);
+
+      if (game.isGameOver()) {
+        winnerInfo.classList.remove("hidden");
+        winnerInfo.innerText = `Koniec gry! Wygrywa ${
+          game.getLastActivePlayer().name
+        }!`;
+      }
     }
   });
 });
