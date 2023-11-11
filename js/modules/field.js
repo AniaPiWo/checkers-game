@@ -18,6 +18,7 @@ export class Field {
 
   set piece(obj) {
     if (!obj instanceof Piece) {
+      // 4. polimorfizm
       throw new Error(`Incorrect argument`);
     }
 
@@ -34,5 +35,12 @@ export class Field {
 
   setEmpty() {
     this.piece = null;
+  }
+
+  isPieceOwner(playerIndex) {
+    if (this.piece) {
+      return this.piece.playerIndex === playerIndex;
+    }
+    return false;
   }
 }

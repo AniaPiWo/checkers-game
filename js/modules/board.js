@@ -1,6 +1,9 @@
 import { Field } from "./field.js";
+import { Move } from "./move.js";
 
 export class Board {
+  // 1. enkapsulacja
+  // 2. abstrakcja
   #fieldsList = [
     ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09"],
     ["10", "11", "12", "13", "14", "15", "16", "17", "18", "19"],
@@ -27,10 +30,12 @@ export class Board {
   }
 
   init() {
+    // uzupełniam resztę pól
     for (let i = 0; i < this.#fieldsList.length; i++) {
       for (let j = 0; j < this.#fieldsList.length; j++) {
         const field = this.getField(i + "" + j);
         if (!(field instanceof Field)) {
+          // jeśli nie zainicjonowano pola to zrób to
           this.setField(`${i}${j}`, new Field());
         }
       }
@@ -68,4 +73,82 @@ export class Board {
   #isCorrectCoord = function (coord) {
     return /^[0-9]{2}$/i.test(coord);
   };
+
+  getAvailableMoves(coord, onlyCaptures = false) {
+    const field = this.getField(coord);
+    const { piece } = field;
+    const { player: playerIndex } = piece;
+
+    const coords = [];
+    const moves = onlyCaptures ? piece.availableCaptures : piece.availableMoves;
+    moves.forEach((move) => {
+      const path = this.#cutPathToFirstOwnPiece(
+        Move.getPathByMove(coord, move, playerIndex),
+        playerIndex
+      );
+
+      path.forEach((coord) => {
+        const field = this.getField(coord);
+        if (field.isEmpty() && !coords.includes(coord)) {
+          coords.push(coord);
+        }
+      });
+    });
+
+    return coords;
+  }
+
+  move(notation, playerIndex) {
+    const [from, to] = notation.split("-"); // 52-43 => from=52, to=43
+    if (!this.#isCorrectCoord(from)) {
+      throw new Error('Incorrect "from" coord');
+    }
+
+    if (!this.#isCorrectCoord(to)) {
+      throw new Error(`Incorrect "to" coord`);
+    }
+
+    const fieldFrom = this.getField(from);
+    const fieldTo = this.getField(to);
+
+    if (fieldFrom.isEmpty()) {
+      throw new Error('Field "from" is empty!');
+    }
+
+    if (!fieldFrom.isPieceOwner(playerIndex)) {
+      throw new Error("You can't move this piece!");
+    }
+
+    if (!fieldTo.isEmpty()) {
+      throw new Error('Field "to" is not empty!');
+    }
+
+    const path = Move.getPathByCoords(from, to);
+
+    const { piece } = fieldFrom;
+    const inverse = !!playerIndex; // !!0 => false, !!1 => true
+    const move = piece.getMove(from, to, false, inverse);
+    if (!move) {
+      throw new Error("This move is not correct!");
+    }
+
+    fieldTo.piece = fieldFrom.piece;
+    fieldFrom.setEmpty();
+  }
+
+  #cutPathToFirstOwnPiece(path, playerIndex) {
+    const newPath = [];
+    // potrzebuję przerwać działanie w odpowiednim momencie
+    for (let i = 0; i < path.length; i++) {
+      const coord = path[i];
+      const field = this.getField(coord);
+      if (!field.isEmpty() && field.isPieceOwner(playerIndex)) {
+        break; // zakończ działanie jak znajdziesz własnego pionka
+      }
+
+      newPath.push(coord);
+    }
+
+    return newPath;
+  }
 }
