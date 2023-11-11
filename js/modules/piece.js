@@ -1,6 +1,6 @@
 export class Piece {
-  //pole chronione (zamierzamy wykorzystać w klasach dziedziczących czyli dzieciach)
-  _player;
+  // klasa abstrakcyjna
+  _player; // pole chronione (zamierzamy wykorzystać w dziecku)
 
   constructor(playerIndex) {
     this.player = playerIndex;
@@ -10,8 +10,8 @@ export class Piece {
     return this.constructor.name.toLowerCase();
   }
 
-  //wsteczna kompatybilnosc
   set player(value) {
+    // wsteczna kompatybliność
     this._player = value;
   }
 
@@ -25,5 +25,17 @@ export class Piece {
 
   get playerIndex() {
     return this._player;
+  }
+
+  get availableMoves() {
+    throw new Error("Implement this method!");
+  }
+
+  getMove(from, to, isCapture, inverse) {
+    // SOLID: zasada podstawień Liskov
+    const move = Move.calculateMove(from, to, isCapture, inverse);
+    return this.availableMoves.find((avMove) => {
+      return Move.isMatch(avMove, move);
+    });
   }
 }
