@@ -9,7 +9,17 @@ import { King } from "./modules/king.js";
 document.addEventListener("DOMContentLoaded", function () {
   const appContainerRef = document.getElementById("app");
   const winnerInfo = document.getElementById("winner");
+  const restartInfo = document.getElementById("restart");
+  const restartButton = document.getElementById("restart-btn");
+
   winnerInfo.classList.add("hidden");
+  restartInfo.classList.add("hidden");
+
+  restartButton.addEventListener("click", () => {
+    game.restart();
+    winnerInfo.classList.add("hidden");
+    restartInfo.classList.add("hidden");
+  });
 
   if (!appContainerRef) {
     throw new Error("App container not found!");
@@ -18,12 +28,11 @@ document.addEventListener("DOMContentLoaded", function () {
   const board = new Board();
   const printer = new CheckersDOMPrinter({ appContainerRef });
   const game = new CheckersGame({ board, printer });
+  const player1 = new Player("Gracz 1");
+  const player2 = new Player("Gracz 2");
 
-  const player1 = new Player("Filipek");
-  const player2 = new Player("Anna");
-
-  //game.addPlayer(player1, CheckersGame.getStartingPositionForWhite());
-  //game.addPlayer(player2, CheckersGame.getStartingPositionForBlack());
+  // game.addPlayer(player1, CheckersGame.getStartingPositionForWhite());
+  // game.addPlayer(player2, CheckersGame.getStartingPositionForBlack());
 
   const player1Index = game.addPlayer(player1);
   const player2Index = game.addPlayer(player2);
@@ -56,6 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
         winnerInfo.innerText = `Koniec gry! Wygrywa ${
           game.getLastActivePlayer().name
         }!`;
+        restartInfo.classList.remove("hidden");
       }
     }
   });

@@ -164,3 +164,11 @@ aside p {
   color: #7434fc;
   font-size: 50px;
 }
+
+#restart-btn {
+  background: #7434fc;
+  color: white;
+  font-size: 20px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
