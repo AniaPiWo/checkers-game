@@ -118,7 +118,9 @@ export class CheckersGame extends Game {
 
   move(notation) {
     const playerIndex = this.#getActivePlayerIndex();
-    this.#board.move(notation, playerIndex);
+    this.#board.move(notation, playerIndex, (capturesCount) =>
+      this.#incrementPlayerScore(playerIndex, capturesCount)
+    );
     this.#moves.push({ notation });
     this.#renderBoard();
     this.#renderPanel();
@@ -146,6 +148,7 @@ export class CheckersGame extends Game {
   #renderPanel() {
     this.#printer.renderPanel({
       activePlayerIndex: this.#getActivePlayerIndex(),
+      playersScore: this.#getPlayersScore(),
     });
   }
 

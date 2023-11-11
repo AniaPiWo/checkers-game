@@ -88,7 +88,7 @@ aside p {
 #board > div:nth-child(even):nth-child(n + 71):nth-child(-n + 80),
 #board > div:nth-child(odd):nth-child(n + 81):nth-child(-n + 90),
 #board > div:nth-child(even):nth-child(n + 91):nth-child(-n + 100) {
-  background-color: #e7c673;
+  background-color: lightgrey;
 }
 
 /* Alternating pattern for even rows */
@@ -102,7 +102,7 @@ aside p {
 #board > div:nth-child(odd):nth-child(n + 71):nth-child(-n + 80),
 #board > div:nth-child(even):nth-child(n + 81):nth-child(-n + 90),
 #board > div:nth-child(odd):nth-child(n + 91):nth-child(-n + 100) {
-  background-color: #e1ab1f;
+  background-color: grey;
 }
 .cell.selected, /* MB */
 .active-field {

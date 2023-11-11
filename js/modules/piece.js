@@ -1,3 +1,4 @@
+import { Move } from "./move.js";
 export class Piece {
   // klasa abstrakcyjna
   _player; // pole chronione (zamierzamy wykorzystać w dziecku)
